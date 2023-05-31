@@ -1,0 +1,110 @@
+syntax = "proto3";
+
+package question;
+
+option go_package = "./qa";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+message QuestionList {
+  int64 QuestionId = 1;
+  int64 UserId = 2;
+  string Title = 3;
+  string Content = 4;
+  google.protobuf.Timestamp CreateTime = 5;
+  google.protobuf.Timestamp UpdateTime = 6;
+  google.protobuf.Timestamp DeleteTime = 7;
+}
+
+message AnswerList {
+  int64 AnswerId = 1;
+  int64 UserId = 2;
+  uint32 QuestionId = 3;
+  uint32 ParentId = 4;
+  string Content = 5;
+  bool IsAnswer = 6;
+  google.protobuf.Timestamp CreateTime = 7;
+  google.protobuf.Timestamp UpdateTime = 8;
+  google.protobuf.Timestamp DeleteTime = 9;
+}
+
+message PubQuestionReq {
+  string Title = 1;
+  string Content = 2;
+  int64 UserId=3;
+}
+
+message AnsQuestionReq {
+  int64 QuestionId = 1;
+  string Content = 2;
+  int64 UserId=3;
+}
+
+message ComAnswerReq {
+  int64 AnswerId = 1;
+  string Content = 2;
+  int64 UserId=3;
+}
+
+message GetQuestionReq {
+  int64 UserId = 1;
+}
+
+message GetQuestionResp {
+  repeated QuestionList question = 1;
+
+}
+
+message GetAnswerReq {
+  int64 UserId = 1;
+}
+
+message GetAnswerResp {
+  repeated AnswerList answer = 1;
+}
+
+message GetCommitReq {
+  int64 UserId = 1;
+}
+
+message GetCommitResp {
+  repeated AnswerList commit = 1;
+}
+
+message DelQuestionReq {
+  int64 QuestionId = 1;
+}
+
+message DelAnswerOrCommitReq {
+  int64 AnswerOrCommitId = 1;
+}
+
+
+message AltQuestionReq {
+  int64 QuestionId = 1;
+  string Title = 2;
+  string Content = 3;
+}
+
+message AltAnswerOrCommitReq {
+  int64 AnswerOrCommitId = 1;
+  string Content = 2;
+}
+message CommonResp{
+  int64 Code = 1;
+  string Message = 2;
+}
+
+service qa{
+  rpc PubQuestion(PubQuestionReq) returns(CommonResp);
+  rpc AnsQuestion(AnsQuestionReq) returns(CommonResp);
+  rpc ComAnswer(ComAnswerReq) returns(CommonResp);
+  rpc GetQuestion(GetAnswerReq) returns(QuestionList);
+  rpc GetAnswer(GetAnswerReq) returns(GetAnswerResp);
+  rpc GetCommit(GetCommitReq) returns(GetCommitResp);
+  rpc DelQuestion(DelQuestionReq) returns(CommonResp);
+  rpc DelAnswerOrCommit(DelAnswerOrCommitReq) returns(CommonResp);
+  rpc AltQuestion(AltQuestionReq) returns(CommonResp);
+  rpc AltAnswerOrCommit(AltAnswerOrCommitReq) returns(CommonResp);
+}

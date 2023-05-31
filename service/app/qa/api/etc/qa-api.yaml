@@ -1,0 +1,9 @@
+Name: qa-api
+Host: 0.0.0.0
+Port: 4003
+# Rpc
+Rpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: qa.rpc

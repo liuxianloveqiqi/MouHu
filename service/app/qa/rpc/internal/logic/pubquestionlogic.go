@@ -20,9 +20,6 @@ type PubQuestionLogic struct {
 	logx.Logger
 }
 
-// 异步处理任务的消费者
-type Csm struct{}
-
 func NewPubQuestionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PubQuestionLogic {
 	return &PubQuestionLogic{
 		ctx:    ctx,
@@ -32,7 +29,7 @@ func NewPubQuestionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *PubQu
 }
 
 // 实现NSQ的HandleMessage方法
-func (c *Csm) HandleMessage(message *nsq.Message) error {
+func (l *PubQuestionLogic) HandleMessage(message *nsq.Message) error {
 	// 解析接收到的消息为Question结构体
 	var question qa.PubQuestionReq
 	err := json.Unmarshal(message.Body, &question)
@@ -49,7 +46,7 @@ func (c *Csm) HandleMessage(message *nsq.Message) error {
 		UpdateTime: time.Now(),
 	}
 
-	if err = ll.svcCtx.Mdb.Create(&que).Error; err != nil {
+	if err = l.svcCtx.Mdb.Create(&que).Error; err != nil {
 		logx.Error("新建问题err: ", err)
 		return err
 	}
@@ -58,8 +55,7 @@ func (c *Csm) HandleMessage(message *nsq.Message) error {
 }
 
 // 初始化消费者并启动监听
-func InitConsumer() {
-	c := Csm{}
+func InitConsumerQue(l *PubQuestionLogic) {
 	// 创建NSQ消费者
 	config := nsq.NewConfig()
 	consumer, err := nsq.NewConsumer("question_topic", "question_channel", config)
@@ -69,7 +65,7 @@ func InitConsumer() {
 	}
 
 	// 设置消息处理函数
-	consumer.AddHandler(&c)
+	consumer.AddHandler(l)
 
 	// 连接到NSQD服务
 	err = consumer.ConnectToNSQLookupd("127.0.0.1:4161")
@@ -82,7 +78,6 @@ func InitConsumer() {
 func (l *PubQuestionLogic) PubQuestion(in *qa.PubQuestionReq) (*qa.CommonResp, error) {
 	// todo: add your logic here and delete this line
 	// 将问题转换为JSON格式
-	ll = l
 	body, err := json.Marshal(in)
 	if err != nil {
 		logx.Error("解析消息失败 ", err)
@@ -97,7 +92,7 @@ func (l *PubQuestionLogic) PubQuestion(in *qa.PubQuestionReq) (*qa.CommonResp, e
 	done := make(chan bool)
 
 	go func() {
-		InitConsumer()
+		InitConsumerQue(l)
 		done <- true
 	}()
 	<-done

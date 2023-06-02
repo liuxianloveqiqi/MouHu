@@ -34,7 +34,7 @@ type (
 		PubQuestion(ctx context.Context, in *PubQuestionReq, opts ...grpc.CallOption) (*CommonResp, error)
 		AnsQuestion(ctx context.Context, in *AnsQuestionReq, opts ...grpc.CallOption) (*CommonResp, error)
 		ComAnswer(ctx context.Context, in *ComAnswerReq, opts ...grpc.CallOption) (*CommonResp, error)
-		GetQuestion(ctx context.Context, in *GetAnswerReq, opts ...grpc.CallOption) (*QuestionList, error)
+		GetQuestion(ctx context.Context, in *GetQuestionReq, opts ...grpc.CallOption) (*GetQuestionResp, error)
 		GetAnswer(ctx context.Context, in *GetAnswerReq, opts ...grpc.CallOption) (*GetAnswerResp, error)
 		GetCommit(ctx context.Context, in *GetCommitReq, opts ...grpc.CallOption) (*GetCommitResp, error)
 		DelQuestion(ctx context.Context, in *DelQuestionReq, opts ...grpc.CallOption) (*CommonResp, error)
@@ -69,7 +69,7 @@ func (m *defaultQa) ComAnswer(ctx context.Context, in *ComAnswerReq, opts ...grp
 	return client.ComAnswer(ctx, in, opts...)
 }
 
-func (m *defaultQa) GetQuestion(ctx context.Context, in *GetAnswerReq, opts ...grpc.CallOption) (*QuestionList, error) {
+func (m *defaultQa) GetQuestion(ctx context.Context, in *GetQuestionReq, opts ...grpc.CallOption) (*GetQuestionResp, error) {
 	client := qa.NewQaClient(m.cli.Conn())
 	return client.GetQuestion(ctx, in, opts...)
 }

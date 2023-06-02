@@ -37,7 +37,7 @@ func (s *QaServer) ComAnswer(ctx context.Context, in *qa.ComAnswerReq) (*qa.Comm
 	return l.ComAnswer(in)
 }
 
-func (s *QaServer) GetQuestion(ctx context.Context, in *qa.GetAnswerReq) (*qa.QuestionList, error) {
+func (s *QaServer) GetQuestion(ctx context.Context, in *qa.GetQuestionReq) (*qa.GetQuestionResp, error) {
 	l := logic.NewGetQuestionLogic(ctx, s.svcCtx)
 	return l.GetQuestion(in)
 }

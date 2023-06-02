@@ -91,13 +91,11 @@ func (l *AnsQuestionLogic) AnsQuestion(in *qa.AnsQuestionReq) (*qa.CommonResp, e
 		logx.Error("publish消息失败:", err)
 		return nil, errors.New("publish消息失败 :" + err.Error())
 	}
-	done := make(chan bool)
 
 	go func() {
 		InitConsumerAns(l)
-		done <- true
 	}()
-	<-done
+
 	return &qa.CommonResp{
 		Code:    0,
 		Message: "Success!",

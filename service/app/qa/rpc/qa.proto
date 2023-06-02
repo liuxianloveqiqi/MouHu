@@ -100,7 +100,7 @@ service qa{
   rpc PubQuestion(PubQuestionReq) returns(CommonResp);
   rpc AnsQuestion(AnsQuestionReq) returns(CommonResp);
   rpc ComAnswer(ComAnswerReq) returns(CommonResp);
-  rpc GetQuestion(GetAnswerReq) returns(QuestionList);
+  rpc GetQuestion(GetQuestionReq) returns(GetQuestionResp);
   rpc GetAnswer(GetAnswerReq) returns(GetAnswerResp);
   rpc GetCommit(GetCommitReq) returns(GetCommitResp);
   rpc DelQuestion(DelQuestionReq) returns(CommonResp);

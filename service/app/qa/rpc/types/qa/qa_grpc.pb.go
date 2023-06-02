@@ -38,7 +38,7 @@ type QaClient interface {
 	PubQuestion(ctx context.Context, in *PubQuestionReq, opts ...grpc.CallOption) (*CommonResp, error)
 	AnsQuestion(ctx context.Context, in *AnsQuestionReq, opts ...grpc.CallOption) (*CommonResp, error)
 	ComAnswer(ctx context.Context, in *ComAnswerReq, opts ...grpc.CallOption) (*CommonResp, error)
-	GetQuestion(ctx context.Context, in *GetAnswerReq, opts ...grpc.CallOption) (*QuestionList, error)
+	GetQuestion(ctx context.Context, in *GetQuestionReq, opts ...grpc.CallOption) (*GetQuestionResp, error)
 	GetAnswer(ctx context.Context, in *GetAnswerReq, opts ...grpc.CallOption) (*GetAnswerResp, error)
 	GetCommit(ctx context.Context, in *GetCommitReq, opts ...grpc.CallOption) (*GetCommitResp, error)
 	DelQuestion(ctx context.Context, in *DelQuestionReq, opts ...grpc.CallOption) (*CommonResp, error)
@@ -82,8 +82,8 @@ func (c *qaClient) ComAnswer(ctx context.Context, in *ComAnswerReq, opts ...grpc
 	return out, nil
 }
 
-func (c *qaClient) GetQuestion(ctx context.Context, in *GetAnswerReq, opts ...grpc.CallOption) (*QuestionList, error) {
-	out := new(QuestionList)
+func (c *qaClient) GetQuestion(ctx context.Context, in *GetQuestionReq, opts ...grpc.CallOption) (*GetQuestionResp, error) {
+	out := new(GetQuestionResp)
 	err := c.cc.Invoke(ctx, Qa_GetQuestion_FullMethodName, in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -152,7 +152,7 @@ type QaServer interface {
 	PubQuestion(context.Context, *PubQuestionReq) (*CommonResp, error)
 	AnsQuestion(context.Context, *AnsQuestionReq) (*CommonResp, error)
 	ComAnswer(context.Context, *ComAnswerReq) (*CommonResp, error)
-	GetQuestion(context.Context, *GetAnswerReq) (*QuestionList, error)
+	GetQuestion(context.Context, *GetQuestionReq) (*GetQuestionResp, error)
 	GetAnswer(context.Context, *GetAnswerReq) (*GetAnswerResp, error)
 	GetCommit(context.Context, *GetCommitReq) (*GetCommitResp, error)
 	DelQuestion(context.Context, *DelQuestionReq) (*CommonResp, error)
@@ -175,7 +175,7 @@ func (UnimplementedQaServer) AnsQuestion(context.Context, *AnsQuestionReq) (*Com
 func (UnimplementedQaServer) ComAnswer(context.Context, *ComAnswerReq) (*CommonResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method ComAnswer not implemented")
 }
-func (UnimplementedQaServer) GetQuestion(context.Context, *GetAnswerReq) (*QuestionList, error) {
+func (UnimplementedQaServer) GetQuestion(context.Context, *GetQuestionReq) (*GetQuestionResp, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method GetQuestion not implemented")
 }
 func (UnimplementedQaServer) GetAnswer(context.Context, *GetAnswerReq) (*GetAnswerResp, error) {
@@ -264,7 +264,7 @@ func _Qa_ComAnswer_Handler(srv interface{}, ctx context.Context, dec func(interf
 }
 
 func _Qa_GetQuestion_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(GetAnswerReq)
+	in := new(GetQuestionReq)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -276,7 +276,7 @@ func _Qa_GetQuestion_Handler(srv interface{}, ctx context.Context, dec func(inte
 		FullMethod: Qa_GetQuestion_FullMethodName,
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(QaServer).GetQuestion(ctx, req.(*GetAnswerReq))
+		return srv.(QaServer).GetQuestion(ctx, req.(*GetQuestionReq))
 	}
 	return interceptor(ctx, in, info, handler)
 }

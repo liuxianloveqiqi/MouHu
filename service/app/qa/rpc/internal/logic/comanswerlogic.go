@@ -93,13 +93,10 @@ func (l *ComAnswerLogic) ComAnswer(in *qa.ComAnswerReq) (*qa.CommonResp, error) 
 		logx.Error("publish消息失败:", err)
 		return nil, errors.New("publish消息失败 :" + err.Error())
 	}
-	done := make(chan bool)
-
 	go func() {
 		InitConsumerCom(l)
-		done <- true
+
 	}()
-	<-done
 	return &qa.CommonResp{
 		Code:    0,
 		Message: "Success!",

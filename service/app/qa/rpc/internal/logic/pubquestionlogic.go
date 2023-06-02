@@ -12,8 +12,6 @@ import (
 	"time"
 )
 
-var ll *PubQuestionLogic
-
 type PubQuestionLogic struct {
 	ctx    context.Context
 	svcCtx *svc.ServiceContext
@@ -89,13 +87,10 @@ func (l *PubQuestionLogic) PubQuestion(in *qa.PubQuestionReq) (*qa.CommonResp, e
 		logx.Error("publish消息失败:", err)
 		return nil, errors.New("publish消息失败 :" + err.Error())
 	}
-	done := make(chan bool)
-
+	// 并发消费者
 	go func() {
 		InitConsumerQue(l)
-		done <- true
 	}()
-	<-done
 	return &qa.CommonResp{
 		Code:    0,
 		Message: "Success!",

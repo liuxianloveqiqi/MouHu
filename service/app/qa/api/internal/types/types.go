@@ -14,8 +14,8 @@ type QuestionList struct {
 type AnswerList struct {
 	AnswerId   int64  `json:"answerId"`
 	UserId     int64  `json:"userId"`
-	QuestionId uint32 `json:"questionId"`
-	ParentId   uint32 `json:"parentId"`
+	QuestionId int64  `json:"questionId"`
+	ParentId   int64  `json:"parentId"`
 	Content    string `json:"content"`
 	IsAnswer   bool   `json:"isAnswer"`
 	CreateTime string `json:"createTime"`

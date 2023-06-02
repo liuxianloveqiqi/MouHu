@@ -124,8 +124,8 @@ type AnswerList struct {
 
 	AnswerId   int64                  `protobuf:"varint,1,opt,name=AnswerId,proto3" json:"AnswerId,omitempty"`
 	UserId     int64                  `protobuf:"varint,2,opt,name=UserId,proto3" json:"UserId,omitempty"`
-	QuestionId uint32                 `protobuf:"varint,3,opt,name=QuestionId,proto3" json:"QuestionId,omitempty"`
-	ParentId   uint32                 `protobuf:"varint,4,opt,name=ParentId,proto3" json:"ParentId,omitempty"`
+	QuestionId int64                  `protobuf:"varint,3,opt,name=QuestionId,proto3" json:"QuestionId,omitempty"`
+	ParentId   int64                  `protobuf:"varint,4,opt,name=ParentId,proto3" json:"ParentId,omitempty"`
 	Content    string                 `protobuf:"bytes,5,opt,name=Content,proto3" json:"Content,omitempty"`
 	IsAnswer   bool                   `protobuf:"varint,6,opt,name=IsAnswer,proto3" json:"IsAnswer,omitempty"`
 	CreateTime *timestamppb.Timestamp `protobuf:"bytes,7,opt,name=CreateTime,proto3" json:"CreateTime,omitempty"`
@@ -179,14 +179,14 @@ func (x *AnswerList) GetUserId() int64 {
 	return 0
 }
 
-func (x *AnswerList) GetQuestionId() uint32 {
+func (x *AnswerList) GetQuestionId() int64 {
 	if x != nil {
 		return x.QuestionId
 	}
 	return 0
 }
 
-func (x *AnswerList) GetParentId() uint32 {
+func (x *AnswerList) GetParentId() int64 {
 	if x != nil {
 		return x.ParentId
 	}

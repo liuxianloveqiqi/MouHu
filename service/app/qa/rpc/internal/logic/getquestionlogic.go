@@ -5,9 +5,9 @@ import (
 	"MouHu/service/app/qa/rpc/internal/svc"
 	"MouHu/service/app/qa/rpc/types/qa"
 	"context"
-	"google.golang.org/protobuf/types/known/timestamppb"
-
+	"errors"
 	"github.com/zeromicro/go-zero/core/logx"
+	"google.golang.org/protobuf/types/known/timestamppb"
 )
 
 type GetQuestionLogic struct {
@@ -27,8 +27,15 @@ func NewGetQuestionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetQu
 func (l *GetQuestionLogic) GetQuestion(in *qa.GetQuestionReq) (*qa.GetQuestionResp, error) {
 	// todo: add your logic here and delete this line
 	var questionList []model.Question
-	if err := l.svcCtx.Mdb.Where("user_id = ?", in.UserId).Find(&questionList).Error; err != nil {
-		return nil, err
+
+	if result := l.svcCtx.Mdb.Where("user_id = ?", in.UserId).Find(&questionList); result.Error != nil {
+		if result.RowsAffected == 0 {
+			// 查询结果为空
+			return nil, errors.New("查询结果为空")
+		} else {
+			// 其他错误
+			return nil, result.Error
+		}
 	}
 	qlist := make([]*qa.QuestionList, 0)
 	for _, v := range questionList {

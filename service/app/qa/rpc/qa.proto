@@ -20,8 +20,8 @@ message QuestionList {
 message AnswerList {
   int64 AnswerId = 1;
   int64 UserId = 2;
-  uint32 QuestionId = 3;
-  uint32 ParentId = 4;
+  int64 QuestionId = 3;
+  int64 ParentId = 4;
   string Content = 5;
   bool IsAnswer = 6;
   google.protobuf.Timestamp CreateTime = 7;

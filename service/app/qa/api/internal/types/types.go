@@ -51,17 +51,17 @@ type GetCommitResp struct {
 }
 
 type DelQuestionReq struct {
-	UserId int64 `form:"userId"`
+	QuestionId int64 `json:"questionId"`
 }
 
 type DelAnswerOrCommitReq struct {
-	AnsOrComId int64 `form:"ansOrComId"`
+	AnsOrComId int64 `json:"ansOrComId"`
 }
 
 type AltQuestionReq struct {
 	QuestionId int64  `json:"questionId"`
-	Title      string `json:"title" validate:"max=30"`
-	Content    string `json:"content" validate:"min=5,max=1000"`
+	Title      string `json:"title,omitempty" `
+	Content    string `json:"content,omitempty" `
 }
 
 type AltAnswerOrCommitReq struct {

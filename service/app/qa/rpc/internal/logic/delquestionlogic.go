@@ -1,6 +1,7 @@
 package logic
 
 import (
+	"MouHu/service/app/qa/model"
 	"context"
 
 	"MouHu/service/app/qa/rpc/internal/svc"
@@ -25,6 +26,11 @@ func NewDelQuestionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelQu
 
 func (l *DelQuestionLogic) DelQuestion(in *qa.DelQuestionReq) (*qa.CommonResp, error) {
 	// todo: add your logic here and delete this line
-
-	return &qa.CommonResp{}, nil
+	if err := l.svcCtx.Mdb.Delete(&model.Question{}, in.QuestionId).Error; err != nil {
+		return nil, err
+	}
+	return &qa.CommonResp{
+		Code:    0,
+		Message: "Success!",
+	}, nil
 }

@@ -1,6 +1,8 @@
 package question
 
 import (
+	"MouHu/service/app/qa/rpc/types/qa"
+	"MouHu/service/common/errorx"
 	"context"
 
 	"MouHu/service/app/qa/api/internal/svc"
@@ -25,6 +27,11 @@ func NewDelQuestionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *DelQu
 
 func (l *DelQuestionLogic) DelQuestion(req *types.DelQuestionReq) error {
 	// todo: add your logic here and delete this line
-
+	_, err := l.svcCtx.Rpc.DelQuestion(l.ctx, &qa.DelQuestionReq{
+		QuestionId: req.QuestionId,
+	})
+	if err != nil {
+		return errorx.NewDefaultError(err.Error())
+	}
 	return nil
 }

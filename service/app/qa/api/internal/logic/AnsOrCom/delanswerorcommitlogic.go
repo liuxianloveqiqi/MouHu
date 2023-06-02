@@ -1,6 +1,8 @@
 package AnsOrCom
 
 import (
+	"MouHu/service/app/qa/rpc/types/qa"
+	"MouHu/service/common/errorx"
 	"context"
 
 	"MouHu/service/app/qa/api/internal/svc"
@@ -25,6 +27,11 @@ func NewDelAnswerOrCommitLogic(ctx context.Context, svcCtx *svc.ServiceContext) 
 
 func (l *DelAnswerOrCommitLogic) DelAnswerOrCommit(req *types.DelAnswerOrCommitReq) error {
 	// todo: add your logic here and delete this line
-
+	_, err := l.svcCtx.Rpc.DelAnswerOrCommit(l.ctx, &qa.DelAnswerOrCommitReq{
+		AnswerOrCommitId: req.AnsOrComId,
+	})
+	if err != nil {
+		return errorx.NewDefaultError(err.Error())
+	}
 	return nil
 }

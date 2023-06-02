@@ -2,178 +2,178 @@ syntax = "v1"  // 版本号
 
 // 接口信息
 info(
-	title: "MouHu/qa.api"
-	author: "liuxian"
-	version: "1.0.0"
+    title: "MouHu/qa.api"
+    author: "liuxian"
+    version: "1.0.0"
 )
 type (
-	QuestionList {
-		QuestionId int64  `json:"questionId"`
-		UserID     int64  `json:"userId"`
-		Title      string `json:"title"`
-		Content    string `json:"content"`
-		CreateTime string `json:"createTime"`
-		UpdateTime string `json:"updateTime"`
-		DeleteTime string `json:"deleteTime"`
-	}
-	AnswerList {
-		AnswerId   int64  `json:"answerId"`
-		UserId     int64  `json:"userId"`
-		QuestionId uint32 `json:"questionId"`
-		ParentId   uint32 `json:"parentId"`
-		Content    string `json:"content"`
-		IsAnswer   bool   `json:"isAnswer"`
-		CreateTime string `json:"createTime"`
-		UpdateTime string `json:"updateTime"`
-		DeleteTime string `json:"deleteTime"`
-	}
+    QuestionList {
+        QuestionId int64 `json:"questionId"`
+        UserID int64 `json:"userId"`
+        Title string `json:"title"`
+        Content string `json:"content"`
+        CreateTime string `json:"createTime"`
+        UpdateTime string `json:"updateTime"`
+        DeleteTime string `json:"deleteTime"`
+    }
+    AnswerList {
+        AnswerId int64 `json:"answerId"`
+        UserId int64 `json:"userId"`
+        QuestionId uint32 `json:"questionId"`
+        ParentId uint32 `json:"parentId"`
+        Content string `json:"content"`
+        IsAnswer bool `json:"isAnswer"`
+        CreateTime string `json:"createTime"`
+        UpdateTime string `json:"updateTime"`
+        DeleteTime string `json:"deleteTime"`
+    }
 )
 type (
-	// 发布问题
-	PubQuestionReq {
-		Title   string `json:"title" validate:"required,max=30"`
-		Content string `json:"content" validate:"required,max=1000"`
-	}
+    // 发布问题
+    PubQuestionReq {
+        Title string `json:"title" validate:"required,max=30"`
+        Content string `json:"content" validate:"required,max=1000"`
+    }
 
-	// 回答问题
-	AnsQuestionReq {
-		QuestionId int64  `json:"questionId"`
-		Content    string `json:"content"`
-	}
+        // 回答问题
+    AnsQuestionReq {
+        QuestionId int64 `json:"questionId"`
+        Content string `json:"content"`
+    }
 
-	// 评论回答
-	ComAnswerReq {
-		ParentId int64  `json:"answerId"`
-		Content  string `json:"content"`
-	}
-	// 获取自己的问题
+        // 评论回答
+    ComAnswerReq {
+        ParentId int64 `json:"answerId"`
+        Content string `json:"content"`
+    }
+        // 获取自己的问题
 
-	GetQuestionResp {
-		Question []QuestionList `json:"qa"`
-	}
+    GetQuestionResp {
+        Question []QuestionList `json:"qa"`
+    }
 
-	// 获取自己的回答
+        // 获取自己的回答
 
-	GetAnswerResp {
-		Answer []AnswerList `json:"answer"`
-	}
+    GetAnswerResp {
+        Answer []AnswerList `json:"answer"`
+    }
 
-	// 获取自己的评论
+        // 获取自己的评论
 
-	GetCommitResp {
-		Commit []AnswerList `json:"commit"`
-	}
+    GetCommitResp {
+        Commit []AnswerList `json:"commit"`
+    }
 
-	// 删除问题
-	DelQuestionReq {
-		UserId int64 `form:"userId"`
-	}
-	//  删除回答or评论
-	DelAnswerOrCommitReq {
-		AnsOrComId int64 `form:"ansOrComId"`
-	}
+        // 删除问题
+    DelQuestionReq {
+        QuestionId int64 `json:"questionId"`
+    }
+        //  删除回答or评论
+    DelAnswerOrCommitReq {
+        AnsOrComId int64 `json:"ansOrComId"`
+    }
 
-	// 修改问题
-	AltQuestionReq {
-		QuestionId int64  `json:"questionId"`
-		Title      string `json:"title" validate:"max=30"`
-		Content    string `json:"content" validate:"min=5,max=1000"`
-	}
+        // 修改问题
+    AltQuestionReq {
+        QuestionId int64 `json:"questionId"`
+        Title string `json:"title,omitempty" `
+        Content string `json:"content,omitempty" `
+    }
 
-	// 修改评论or回答
-	AltAnswerOrCommitReq {
-		AnsOrComId int64  `json:"ansOrComId"`
-		Content    string `json:"content"`
-	}
+        // 修改评论or回答
+    AltAnswerOrCommitReq {
+        AnsOrComId int64 `json:"ansOrComId"`
+        Content string `json:"content"`
+    }
 )
 
 @server(
-	middleware: JWT // 路由中间件声明
-	prefix: qa
-	group: question
+    middleware: JWT // 路由中间件声明
+    prefix: qa
+    group: question
 )
 
 service qa-api {
-	@doc(
-		summary: "发布问题"
-	)
-	@handler PubQuestion
-	post /question/publish (PubQuestionReq) returns ()
-	
-	@doc(
-		summary: "获取所有问题"
-	)
-	@handler GetQuestion
-	get /question/list () returns (GetQuestionResp)
-	
-	@doc(
-		summary: "删除问题"
-	)
-	@handler DelQuestion
-	delete /question/del (DelQuestionReq) returns ()
-	
-	@doc(
-		summary: "修改问题"
-	)
-	@handler AltQuestion
-	post /question/alt (AltQuestionReq) returns ()
+    @doc(
+        summary: "发布问题"
+    )
+    @handler PubQuestion
+    post /question/publish (PubQuestionReq) returns ()
+
+    @doc(
+        summary: "获取所有问题"
+    )
+    @handler GetQuestion
+    get /question/list () returns (GetQuestionResp)
+
+    @doc(
+        summary: "删除问题"
+    )
+    @handler DelQuestion
+    delete /question/del (DelQuestionReq) returns ()
+
+    @doc(
+        summary: "修改问题"
+    )
+    @handler AltQuestion
+    post /question/alt (AltQuestionReq) returns ()
 }
 
 @server(
-	middleware: JWT // 路由中间件声明
-	prefix: qa
-	group: answer
+    middleware: JWT // 路由中间件声明
+    prefix: qa
+    group: answer
 )
 
 service qa-api {
-	@doc(
-		summary: "发布回答"
-	)
-	@handler AnsQuestion
-	post /answer/publish (AnsQuestionReq) returns ()
-	
-	@doc(
-		summary: "获取所有回答"
-	)
-	@handler GetAnswer
-	get /answer/list () returns (GetQuestionResp)
+    @doc(
+        summary: "发布回答"
+    )
+    @handler AnsQuestion
+    post /answer/publish (AnsQuestionReq) returns ()
+
+    @doc(
+        summary: "获取所有回答"
+    )
+    @handler GetAnswer
+    get /answer/list () returns (GetQuestionResp)
 }
 
 @server(
-	middleware: JWT // 路由中间件声明
-	prefix: qa
-	group: commit
+    middleware: JWT // 路由中间件声明
+    prefix: qa
+    group: commit
 )
 
 service qa-api {
-	@doc(
-		summary: "发布评论"
-	)
-	@handler ComAnswer
-	post /commit/publish (ComAnswerReq) returns ()
-	
-	@doc(
-		summary: "获取所有评论"
-	)
-	@handler GetCommit
-	get /commit/list () returns (GetCommitResp)
+    @doc(
+        summary: "发布评论"
+    )
+    @handler ComAnswer
+    post /commit/publish (ComAnswerReq) returns ()
+
+    @doc(
+        summary: "获取所有评论"
+    )
+    @handler GetCommit
+    get /commit/list () returns (GetCommitResp)
 }
 
 @server(
-	middleware: JWT // 路由中间件声明
-	prefix: qa
-	group: AnsOrCom
+    middleware: JWT // 路由中间件声明
+    prefix: qa
+    group: AnsOrCom
 )
 service qa-api {
-	@doc(
-		summary: "删除回答or评论"
-	)
-	@handler DelAnswerOrCommit
-	delete /ansorcom/del (DelAnswerOrCommitReq) returns ()
-	
-	@doc(
-		summary: "修改回答or评论"
-	)
-	@handler AltAnswerOrCommit
-	post /ansorcom/alt (AltAnswerOrCommitReq) returns ()
+    @doc(
+        summary: "删除回答or评论"
+    )
+    @handler DelAnswerOrCommit
+    delete /ansorcom/del (DelAnswerOrCommitReq) returns ()
+
+    @doc(
+        summary: "修改回答or评论"
+    )
+    @handler AltAnswerOrCommit
+    post /ansorcom/alt (AltAnswerOrCommitReq) returns ()
 }

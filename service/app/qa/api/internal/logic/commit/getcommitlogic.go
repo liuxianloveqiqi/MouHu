@@ -23,7 +23,7 @@ func NewGetCommitLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetComm
 	}
 }
 
-func (l *GetCommitLogic) GetCommit(req *types.GetCommitReq) (resp *types.GetCommitResp, err error) {
+func (l *GetCommitLogic) GetCommit() (resp *types.GetCommitResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

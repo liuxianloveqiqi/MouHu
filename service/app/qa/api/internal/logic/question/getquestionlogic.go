@@ -25,10 +25,14 @@ func NewGetQuestionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetQu
 	}
 }
 
-func (l *GetQuestionLogic) GetQuestion(req *types.GetQuestionReq) (resp *types.GetQuestionResp, err error) {
+func (l *GetQuestionLogic) GetQuestion() (resp *types.GetQuestionResp, err error) {
 	// todo: add your logic here and delete this line
+	userId, ok := l.ctx.Value("user_id").(int64)
+	if !ok {
+		return nil, errorx.NewDefaultError("user_id获取失败")
+	}
 	res, err := l.svcCtx.Rpc.GetQuestion(l.ctx, &qa.GetQuestionReq{
-		UserId: req.UserId,
+		UserId: userId,
 	})
 	if err != nil {
 		return nil, errorx.NewDefaultError(err.Error())
@@ -40,9 +44,9 @@ func (l *GetQuestionLogic) GetQuestion(req *types.GetQuestionReq) (resp *types.G
 			UserID:     v.UserId,
 			Title:      v.Title,
 			Content:    v.Content,
-			CreateTime: v.CreateTime.String(),
-			UpdateTime: v.UpdateTime.String(),
-			DeleteTime: v.DeleteTime.String(),
+			CreateTime: v.CreateTime.AsTime().Format("2006-01-02 15:04:05"),
+			UpdateTime: v.UpdateTime.AsTime().Format("2006-01-02 15:04:05"),
+			DeleteTime: v.DeleteTime.AsTime().Format("2006-01-02 15:04:05"),
 		}
 		qlist = append(qlist, q)
 	}

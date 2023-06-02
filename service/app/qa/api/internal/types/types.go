@@ -38,24 +38,12 @@ type ComAnswerReq struct {
 	Content  string `json:"content"`
 }
 
-type GetQuestionReq struct {
-	UserId int64 `form:"userId"`
-}
-
 type GetQuestionResp struct {
 	Question []QuestionList `json:"qa"`
 }
 
-type GetAnswerReq struct {
-	UserId int64 `form:"userId"`
-}
-
 type GetAnswerResp struct {
 	Answer []AnswerList `json:"answer"`
-}
-
-type GetCommitReq struct {
-	UserId int64 `form:"userId"`
 }
 
 type GetCommitResp struct {

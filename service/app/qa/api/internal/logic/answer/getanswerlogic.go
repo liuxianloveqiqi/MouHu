@@ -23,7 +23,7 @@ func NewGetAnswerLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetAnsw
 	}
 }
 
-func (l *GetAnswerLogic) GetAnswer(req *types.GetAnswerReq) (resp *types.GetQuestionResp, err error) {
+func (l *GetAnswerLogic) GetAnswer() (resp *types.GetQuestionResp, err error) {
 	// todo: add your logic here and delete this line
 
 	return

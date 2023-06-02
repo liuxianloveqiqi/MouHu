@@ -27,7 +27,7 @@ func NewGetQuestionLogic(ctx context.Context, svcCtx *svc.ServiceContext) *GetQu
 func (l *GetQuestionLogic) GetQuestion(in *qa.GetQuestionReq) (*qa.GetQuestionResp, error) {
 	// todo: add your logic here and delete this line
 	var questionList []model.Question
-	if err := l.svcCtx.Mdb.Where("user_id = ?").Find(&questionList).Error; err != nil {
+	if err := l.svcCtx.Mdb.Where("user_id = ?", in.UserId).Find(&questionList).Error; err != nil {
 		return nil, err
 	}
 	qlist := make([]*qa.QuestionList, 0)

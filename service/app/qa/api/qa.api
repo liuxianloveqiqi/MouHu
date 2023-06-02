@@ -46,27 +46,20 @@ type (
 		ParentId int64  `json:"answerId"`
 		Content  string `json:"content"`
 	}
-
 	// 获取自己的问题
-	GetQuestionReq {
-		UserId int64 `form:"userId"`
-	}
+
 	GetQuestionResp {
 		Question []QuestionList `json:"qa"`
 	}
 
 	// 获取自己的回答
-	GetAnswerReq {
-		UserId int64 `form:"userId"`
-	}
+
 	GetAnswerResp {
 		Answer []AnswerList `json:"answer"`
 	}
 
 	// 获取自己的评论
-	GetCommitReq {
-		UserId int64 `form:"userId"`
-	}
+
 	GetCommitResp {
 		Commit []AnswerList `json:"commit"`
 	}
@@ -111,7 +104,7 @@ service qa-api {
 		summary: "获取所有问题"
 	)
 	@handler GetQuestion
-	get /question/list (GetQuestionReq) returns (GetQuestionResp)
+	get /question/list () returns (GetQuestionResp)
 	
 	@doc(
 		summary: "删除问题"
@@ -124,7 +117,6 @@ service qa-api {
 	)
 	@handler AltQuestion
 	post /question/alt (AltQuestionReq) returns ()
-	
 }
 
 @server(
@@ -144,8 +136,7 @@ service qa-api {
 		summary: "获取所有回答"
 	)
 	@handler GetAnswer
-	get /answer/list (GetAnswerReq) returns (GetQuestionResp)
-	
+	get /answer/list () returns (GetQuestionResp)
 }
 
 @server(
@@ -165,8 +156,7 @@ service qa-api {
 		summary: "获取所有评论"
 	)
 	@handler GetCommit
-	get /commit/list (GetCommitReq) returns (GetCommitResp)
-	
+	get /commit/list () returns (GetCommitResp)
 }
 
 @server(
@@ -179,12 +169,11 @@ service qa-api {
 		summary: "删除回答or评论"
 	)
 	@handler DelAnswerOrCommit
-	delete /ansorcom/del (DelAnswerOrCommitReq) returns()
+	delete /ansorcom/del (DelAnswerOrCommitReq) returns ()
 	
 	@doc(
 		summary: "修改回答or评论"
 	)
 	@handler AltAnswerOrCommit
-	post /ansorcom/alt (AltAnswerOrCommitReq) returns()
-	
+	post /ansorcom/alt (AltAnswerOrCommitReq) returns ()
 }

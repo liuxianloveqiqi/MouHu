@@ -1,0 +1,37 @@
+syntax = "v1"  // 版本号
+
+// 接口信息
+info(
+	title: "MouHu/like.api"
+	author: "liuxian"
+	version: "1.0.0"
+)
+
+type (
+	// 关注别人
+	FollowUserReq {
+		FolloweeId int64 `json:"followeeId"`
+	}
+	// 点赞 question or answer or commit
+	LikeAddReq {
+		LikeType string `json:"likeType" validate:"required,regex=^(question|answer)$"`
+		LikeId   int64  `json:"likeId"`
+	}
+)
+@server(
+	middleware: JWT // 路由中间件声明
+	prefix: like
+)
+service like-api {
+	@doc(
+		summary: "关注用户"
+	)
+	@handler FollowUser
+	post /follow/add (FollowUserReq) returns ()
+	
+	@doc(
+		summary: "点赞"
+	)
+	@handler LikeAdd
+	post /like/add (LikeAddReq) returns ()
+}

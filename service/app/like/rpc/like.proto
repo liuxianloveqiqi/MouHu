@@ -1,0 +1,27 @@
+syntax = "proto3";
+
+package like;
+
+option go_package = "./like";
+
+import "google/protobuf/timestamp.proto";
+import "google/protobuf/empty.proto";
+
+message FollowUserReq{
+  int64  FolloweeId = 1;
+  int64 UserId=2;
+}
+message LikeAddReq{
+  string LikeType = 1;
+  int64   LikeId = 2;
+  int64 UserId=3;
+}
+message CommonResp{
+  int64 Code = 1;
+  string Message = 2;
+
+}
+service like{
+  rpc FollowUser(FollowUserReq) returns(CommonResp);
+  rpc LikeAdd(LikeAddReq) returns(CommonResp);
+}

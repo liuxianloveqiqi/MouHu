@@ -1,0 +1,20 @@
+Name: like.rpc
+ListenOn: 0.0.0.0:4006
+Etcd:
+  Hosts:
+  - 127.0.0.1:2379
+  Key: like.rpc
+# mysql配置
+Mysql:
+  DataSource: root:123456@(127.0.0.1:3308)/mouhu?charset=utf8mb4&parseTime=True&loc=Asia%2FShanghai
+# redis 配置
+CacheRedis:
+  - Host: 127.0.0.1:6379
+    Pass:
+    Type: node
+# redis 配置
+RedisClient:
+  Host: 127.0.0.1:6279
+# nsq
+Nsq:
+  Host: 127.0.0.1:4150

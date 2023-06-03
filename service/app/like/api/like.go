@@ -10,9 +10,9 @@ import (
 	"github.com/zeromicro/go-zero/rest/httpx"
 	"net/http"
 
-	"MouHu/service/app/qa/api/internal/config"
-	"MouHu/service/app/qa/api/internal/handler"
-	"MouHu/service/app/qa/api/internal/svc"
+	"MouHu/service/app/like/api/internal/config"
+	"MouHu/service/app/like/api/internal/handler"
+	"MouHu/service/app/like/api/internal/svc"
 
 	"github.com/zeromicro/go-zero/core/conf"
 	"github.com/zeromicro/go-zero/rest"
@@ -31,7 +31,6 @@ func main() {
 
 	ctx := svc.NewServiceContext(c)
 	handler.RegisterHandlers(server, ctx)
-	// 自定义错误
 	httpx.SetErrorHandlerCtx(func(ctx context.Context, err error) (int, interface{}) {
 		switch e := err.(type) {
 		case *errorx.CodeError:

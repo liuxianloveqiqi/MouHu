@@ -1,0 +1,9 @@
+Name: like-api
+Host: 0.0.0.0
+Port: 4005
+# Rpc
+Rpc:
+  Etcd:
+    Hosts:
+      - 127.0.0.1:2379
+    Key: like.rpc
